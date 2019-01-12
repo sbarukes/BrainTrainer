@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,10 +14,11 @@ public class MainActivity extends AppCompatActivity {
 
     Button goButton;
     ArrayList<Integer> answers = new ArrayList<Integer>();
-
-    public void start(View view){
-        goButton.setVisibility(View.INVISIBLE);
-    }
+    int locationOfCorrectAnswer;
+    TextView resultTextView;
+    TextView scoreTextView;
+    int score = 0;
+    int numberOfQuestions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Button button1 = findViewById(R.id.button1);
         Button button2 = findViewById(R.id.button2);
         Button button3 = findViewById(R.id.button3);
+        resultTextView = findViewById(R.id.resultTextView);
+        scoreTextView = findViewById(R.id.scoreTextView);
 
         goButton = findViewById(R.id.goButton);
 
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         sumTextView.setText(Integer.toString(a) + " + " + Integer.toString(b));
 
-        int locationOfCorrectAnswer = rand.nextInt(4);
+        locationOfCorrectAnswer = rand.nextInt(4);
 
         for(int i = 0; i < 4; i++){
             if(i == locationOfCorrectAnswer){
@@ -57,5 +61,21 @@ public class MainActivity extends AppCompatActivity {
         button1.setText(Integer.toString(answers.get(1)));
         button2.setText(Integer.toString(answers.get(2)));
         button3.setText(Integer.toString(answers.get(3)));
+    }
+
+    public void start(View view){
+        goButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void chooseAnswer(View view){
+        if(Integer.toString(locationOfCorrectAnswer).equals(view.getTag().toString())){
+            resultTextView.setText("Correct!!");
+            score++;
+        }
+        else{
+            resultTextView.setText("Wrong :(");
+        }
+        numberOfQuestions++;
+        scoreTextView.setText(Integer.toString(score) + "/" + Integer.toString(numberOfQuestions));
     }
 }
